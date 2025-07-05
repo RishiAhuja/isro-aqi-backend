@@ -5,16 +5,18 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset --force",
+    "build": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev",
+    "db:deploy": "npx prisma migrate deploy",
+    "db:studio": "npx prisma studio",
+    "db:reset": "npx prisma migrate reset --force",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:real-data": "./test-real-data.sh",
-    "test:apis": "curl http://localhost:5000/api/aqi?lat=28.6139\\&lng=77.2090",
-    "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "setup": "npm install && npx prisma generate && npx prisma migrate dev"
+    "test:apis": "curl http://localhost:5001/api/aqi?lat=28.6139\\&lng=77.2090",
+    "docker:up": "sudo docker-compose up -d",
+    "docker:down": "sudo docker-compose down",
+    "setup": "npm install && npx prisma generate && npx prisma migrate dev",
+    "deploy": "npx prisma migrate deploy && npx prisma generate && node server.js"
   },
   "keywords": [
     "aqi",
@@ -27,12 +29,14 @@
   "license": "ISC",
   "description": "Backend API for ISRO AQI Visualizer & Forecast App",
   "dependencies": {
+    "@huggingface/inference": "^2.8.1",
     "@prisma/client": "^6.11.1",
     "axios": "^1.10.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^4.21.2",
-    "prisma": "^6.11.1"
+    "prisma": "^6.11.1",
+    "regression": "^2.0.1"
   },
   "devDependencies": {
     "firebase-admin": "^13.4.0",

@@ -1,21 +1,19 @@
-# 🚀 Frontend Integration Guide - ISRO AQI Backend
+# Frontend Integration Guide - ISRO AQI Backend
 
-## 🎯 Overview
-Your backend is now **100% functional** with real AQI data from OpenWeatherMap and IQAir APIs. This guide provides everything frontend developers need to integrate with your backend.
-
-**Backend Base URL**: `http://localhost:5001` (Development) | `https://your-app.onrender.com` (Production)
+## Overview
+**Backend Base URL**: `https://isro-aqi-backend.onrender.com/`
 
 ---
 
-## ✅ **Real Data Verification**
+## **Real Data Verification**
 
-### ✅ **Confirmed Working Endpoints**
-- **✅ Real-time AQI**: Live data from OpenWeatherMap
-- **✅ 48-hour Forecast**: Actual pollution predictions  
-- **✅ Global Coverage**: Works worldwide, not just India
-- **✅ All Pollutants**: PM2.5, PM10, NO2, SO2, CO, O3, NH3
+### **Confirmed Working Endpoints**
+- **Real-time AQI**: Live data from OpenWeatherMap
+- **48-hour Forecast**: Actual pollution predictions  
+- **Global Coverage**: Works worldwide, not just India
+- **All Pollutants**: PM2.5, PM10, NO2, SO2, CO, O3, NH3
 
-### 🧪 **Test Commands (Verified Working)**
+### **Test Commands (Verified Working)**
 ```bash
 # Delhi AQI (Current: ~55 - Satisfactory)
 curl "http://localhost:5001/api/aqi?lat=28.6139&lng=77.2090"
@@ -29,7 +27,7 @@ curl "http://localhost:5001/api/forecast?lat=12.9716&lng=77.5946&hours=48"
 
 ---
 
-## 🌍 **API Endpoints Reference**
+## **API Endpoints Reference**
 
 ### 1. **Real-Time AQI Data**
 **GET** `/api/aqi`
@@ -172,7 +170,7 @@ const data = await response.json();
 
 ---
 
-## 📍 **Major Indian Cities Coordinates**
+## **Major Indian Cities Coordinates**
 
 Use these tested coordinates for your frontend:
 
@@ -193,7 +191,7 @@ const INDIAN_CITIES = {
 
 ---
 
-## 🎨 **AQI Color Coding**
+## **AQI Color Coding**
 
 Use these standardized colors for AQI categories:
 
@@ -219,7 +217,7 @@ const AQI_LABELS = {
 
 ---
 
-## 📱 **React Component Examples**
+## **React Component Examples**
 
 ### AQI Display Component
 ```jsx
@@ -315,7 +313,7 @@ const ForecastChart = ({ lat, lng, hours = 24 }) => {
 
 ---
 
-## 🚨 **Error Handling**
+## **Error Handling**
 
 All endpoints return consistent error format:
 
@@ -339,7 +337,7 @@ All endpoints return consistent error format:
 
 ---
 
-## 🔄 **Caching & Performance**
+## **Caching & Performance**
 
 ### Data Freshness
 - **Real-time AQI**: Cached for 1 hour
@@ -380,13 +378,13 @@ const setCachedAQI = (lat, lng, data) => {
 
 ---
 
-## 🌐 **CORS Configuration**
+## **CORS Configuration**
 
 CORS is enabled for all origins in development. For production, specific origins will be whitelisted.
 
 ---
 
-## 📊 **Data Sources & Accuracy**
+## **Data Sources & Accuracy**
 
 ### Primary: **OpenWeatherMap**
 - **Coverage**: Global (including all Indian cities)
@@ -400,14 +398,14 @@ CORS is enabled for all origins in development. For production, specific origins
 - **Accuracy**: Ground station data + satellite
 
 ### Data Quality Indicators
-- **✅ Real Data**: `meta.isRealData: true`
-- **🌍 Source**: `source: "OpenWeatherMap"` or `"IQAir"`
-- **⏱️ Freshness**: Check `lastUpdated` timestamp
-- **📊 Confidence**: Forecast confidence levels (0.0-1.0)
+- **Real Data**: `meta.isRealData: true`
+- **Source**: `source: "OpenWeatherMap"` or `"IQAir"`
+- **Freshness**: Check `lastUpdated` timestamp
+- **Confidence**: Forecast confidence levels (0.0-1.0)
 
 ---
 
-## 🔧 **Development vs Production**
+## **Development vs Production**
 
 ### Development
 ```javascript
@@ -428,9 +426,9 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 
 ---
 
-## 🎯 **Frontend Checklist**
+## **Frontend Checklist**
 
-### ✅ **Essential Features**
+### **Essential Features**
 - [ ] Real-time AQI display for major cities
 - [ ] 24-48 hour forecast charts
 - [ ] Color-coded AQI categories
@@ -438,7 +436,7 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 - [ ] Location-based AQI search
 - [ ] Responsive design for mobile/desktop
 
-### ✅ **Enhanced Features**  
+### **Enhanced Features**  
 - [ ] Historical trends (7-30 days)
 - [ ] Comparative city analysis
 - [ ] AQI threshold alerts
@@ -446,48 +444,9 @@ const API_BASE_URL = process.env.NODE_ENV === 'production'
 - [ ] Pollutant-specific breakdowns
 - [ ] Forecast accuracy tracking
 
-### ✅ **Performance**
+### **Performance**
 - [ ] Frontend caching implementation
 - [ ] Loading states for API calls
 - [ ] Error handling and fallbacks
 - [ ] Optimized API call frequency
 - [ ] Lazy loading for non-critical data
-
----
-
-## 🚀 **Ready for Production**
-
-Your backend is **production-ready** with:
-- ✅ Real data from verified APIs
-- ✅ Error handling and fallbacks
-- ✅ Consistent JSON responses
-- ✅ Rate limiting protection
-- ✅ Database caching
-- ✅ CORS configuration
-- ✅ Environment-based configuration
-
-**Next Step**: Deploy to Render and update frontend API URLs!
-
----
-
-## 📞 **Support & Testing**
-
-### Test Your Integration
-```bash
-# Health check
-curl http://localhost:5001/
-
-# Real Delhi AQI  
-curl "http://localhost:5001/api/aqi?lat=28.6139&lng=77.2090"
-
-# Mumbai 24h forecast
-curl "http://localhost:5001/api/forecast?lat=19.0760&lng=72.8777&hours=24"
-```
-
-### Debug Real Data
-- Check backend logs for API errors
-- Verify `USE_REAL_DATA=true` in .env
-- Confirm API keys are valid
-- Monitor API usage at provider dashboards
-
-**🎉 Your backend is ready for a world-class frontend integration!**
