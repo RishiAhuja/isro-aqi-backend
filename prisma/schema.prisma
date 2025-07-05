@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -14,21 +8,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Location model for cities/monitoring stations
 model Location {
-  id            String   @id @default(cuid())
-  name          String   // City/Station name
+  id            String            @id @default(cuid())
+  name          String
   latitude      Float
   longitude     Float
   state         String?
-  country       String   @default("India")
-  stationType   String?  // "CPCB", "Manual", "Satellite"
-  stationCode   String?  // Official station identifier
-  isActive      Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  // Relations
+  country       String            @default("India")
+  stationType   String?
+  stationCode   String?
+  isActive      Boolean           @default(true)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
   aqiLogs       AQILog[]
   forecasts     Forecast[]
   notifications NotificationLog[]
@@ -37,77 +28,67 @@ model Location {
   @@map("locations")
 }
 
-// AQI data logs for real-time and historical data
 model AQILog {
-  id          String   @id @default(cuid())
-  locationId  String
-  aqi         Int      // Overall AQI value
-  category    String   // "Good", "Moderate", "Poor", etc.
-  pm25        Float?   // PM2.5 concentration
-  pm10        Float?   // PM10 concentration
-  no2         Float?   // NO2 concentration
-  so2         Float?   // SO2 concentration
-  co          Float?   // CO concentration
-  o3          Float?   // O3 concentration
-  source      String   // "CPCB", "Satellite", "Manual"
-  timestamp   DateTime @default(now())
-  createdAt   DateTime @default(now())
-
-  // Relations
-  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  locationId String
+  aqi        Int
+  category   String
+  pm25       Float?
+  pm10       Float?
+  no2        Float?
+  so2        Float?
+  co         Float?
+  o3         Float?
+  source     String
+  timestamp  DateTime @default(now())
+  createdAt  DateTime @default(now())
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
   @@index([locationId, timestamp])
   @@index([timestamp])
   @@map("aqi_logs")
 }
 
-// Forecast predictions
 model Forecast {
-  id            String   @id @default(cuid())
-  locationId    String
-  predictedAqi  Int
-  confidence    Float?   // Prediction confidence (0-1)
-  forecastFor   DateTime // Date/time this forecast is for
-  hoursAhead    Int      // How many hours ahead (24, 48, 72)
-  model         String   // "LSTM", "HuggingFace", "Linear"
-  createdAt     DateTime @default(now())
-
-  // Relations
-  location      Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  locationId   String
+  predictedAqi Int
+  confidence   Float?
+  forecastFor  DateTime
+  hoursAhead   Int
+  model        String
+  createdAt    DateTime @default(now())
+  location     Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
   @@index([locationId, forecastFor])
   @@map("forecasts")
 }
 
-// Push notification tracking
 model NotificationLog {
-  id          String   @id @default(cuid())
-  locationId  String
-  fcmToken    String?  // Firebase FCM token (optional)
-  userId      String?  // User identifier (optional)
-  aqi         Int      // AQI value that triggered notification
-  threshold   Int      // Threshold that was exceeded
-  message     String   // Notification message sent
-  sentAt      DateTime @default(now())
-  status      String   @default("sent") // "sent", "failed", "pending"
-
-  // Relations
-  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  locationId String
+  fcmToken   String?
+  userId     String?
+  aqi        Int
+  threshold  Int
+  message    String
+  sentAt     DateTime @default(now())
+  status     String   @default("sent")
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
   @@index([locationId, sentAt])
   @@map("notification_logs")
 }
 
-// User subscriptions for notifications (optional)
 model Subscription {
-  id          String   @id @default(cuid())
-  fcmToken    String   @unique
-  userId      String?  // Optional user identifier
-  locations   String[] // Array of location IDs to monitor
-  thresholds  Json     // Custom thresholds per pollutant
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  fcmToken   String   @unique
+  userId     String?
+  locations  String[]
+  thresholds Json
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("subscriptions")
 }

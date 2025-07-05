@@ -31,8 +31,7 @@ app.get('/', (req, res) => {
 app.use('/api/aqi', require('./routes/aqi'));
 app.use('/api/history', require('./routes/history'));
 app.use('/api/health-advice', require('./routes/health'));
-// app.use('/api/forecast', require('./routes/forecast'));
-// app.use('/api/notifications', require('./routes/notifications'));
+app.use('/api/forecast', require('./routes/forecast'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

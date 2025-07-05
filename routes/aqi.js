@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const AQIService = require('../services/aqiService');
+const RealAQIService = require('../services/realAqiService');
 const DatabaseService = require('../services/databaseService');
 const { formatResponse, categorizeAQI } = require('../utils/helpers');
 
-const aqiService = new AQIService();
+const aqiService = new RealAQIService();
 const dbService = new DatabaseService();
 
 /**

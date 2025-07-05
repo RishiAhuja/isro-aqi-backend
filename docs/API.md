@@ -1,16 +1,28 @@
 # ISRO AQI Visualizer & Forecast API Documentation
 
 ## Overview
-Backend API for real-time AQI monitoring, historical trends, forecasting, and health recommendations.
+Backend API for **real-time AQI monitoring** with actual data from OpenWeatherMap and IQAir APIs, historical trends, forecasting, and health recommendations.
 
 **Base URL:** `http://localhost:5000` (Development) | `https://your-app.render.com` (Production)
 
 **API Version:** v1.0.0
 
+**Data Sources:** 
+- 🌍 **OpenWeatherMap Air Pollution API** (Primary)
+- 🌬️ **IQAir AirVisual API** (Fallback)
+- 📊 **Real-time data** with automatic caching
+
+---
+
+## 🚀 Quick Start
+1. **Enable Real Data**: Follow `/docs/QUICK_START_REAL_DATA.md`
+2. **Get API Keys**: OpenWeatherMap (primary) + IQAir (optional)
+3. **Test Endpoints**: Use coordinates for Indian cities
+
 ---
 
 ## Authentication
-Currently, the API is open and doesn't require authentication. In production, consider adding API key authentication.
+Currently open API. Production deployment will include rate limiting and monitoring.
 
 ---
 
@@ -38,7 +50,7 @@ Check if the API is running.
 ### Get Current AQI
 **GET** `/api/aqi`
 
-Get real-time AQI data for a location.
+Get **real-time AQI data** from OpenWeatherMap/IQAir for any location worldwide.
 
 **Query Parameters:**
 - `lat` (number, required): Latitude
@@ -47,40 +59,44 @@ Get real-time AQI data for a location.
 
 **Example Request:**
 ```
-GET /api/aqi?lat=28.6139&lng=77.2090&radius=5
+GET /api/aqi?lat=19.0760&lng=72.8777&radius=5
 ```
 
-**Example Response:**
+**Real Data Response:**
 ```json
 {
   "success": true,
   "data": {
     "location": {
-      "name": "New Delhi",
-      "latitude": 28.6139,
-      "longitude": 77.2090,
-      "state": "Delhi"
+      "latitude": 19.0760,
+      "longitude": 72.8777,
+      "city": "Mumbai",
+      "country": "IN"
     },
     "aqi": {
-      "value": 156,
-      "category": "MODERATE",
-      "label": "Moderate",
-      "color": "#FF7E00"
+      "value": 142,
+      "category": "Unhealthy for Sensitive Groups",
+      "color": "#ff9500",
+      "healthAdvice": "People with respiratory or heart conditions should limit outdoor exertion."
     },
     "pollutants": {
-      "pm25": 89.5,
-      "pm10": 145.2,
-      "no2": 67.8,
-      "so2": 12.4,
-      "co": 1.8,
-      "o3": 45.6
+      "pm2_5": 52.8,
+      "pm10": 78.4,
+      "co": 789.2,
+      "no": 0.4,
+      "no2": 28.6,
+      "o3": 34.7,
+      "so2": 11.2,
+      "nh3": 12.8
     },
-    "source": "CPCB",
-    "lastUpdated": "2025-07-05T10:00:00.000Z"
+    "timestamp": "2025-07-05T10:30:00Z",
+    "source": "openweathermap"
   },
   "message": "AQI data retrieved successfully",
-  "meta": {
-    "timestamp": "2025-07-05T10:30:00.000Z"
+  "metadata": {
+    "source": "real_api",
+    "cached": false,
+    "processingTime": "1.2s"
   }
 }
 ```

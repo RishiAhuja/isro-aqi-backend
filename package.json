@@ -9,7 +9,12 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:real-data": "./test-real-data.sh",
+    "test:apis": "curl http://localhost:5000/api/aqi?lat=28.6139\\&lng=77.2090",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "setup": "npm install && npx prisma generate && npx prisma migrate dev"
   },
   "keywords": [
     "aqi",
